@@ -20,5 +20,6 @@ COPY . .
 # RUN docker build -t image .
 # RUN docker run -d -p 5000:5000 image
 RUN docker pull nhkhai/container-assignment:latest
-RUN docker run -d -p 5000:5000 nhkhai/container-assignment:latest
-EXPOSE WEBSITE http://0.0.0.0:5000
+# RUN docker run -d -p 5000:5000 nhkhai/container-assignment:latest
+RUN docker run -d --network=host nhkhai/container-assignment:latest
+EXPOSE WEBSITE http://localhost:5000
