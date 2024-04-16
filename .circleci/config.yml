@@ -46,7 +46,7 @@ jobs:
       - run:
           name: Render Deploy Hook
           command: |
-            $RENDER_DEPLOY_HOOK_URL
+            curl "$RENDER_DEPLOY_HOOK_URL"
 
 # Workflow - Defines what sequence will the jobs run.
 workflows:
