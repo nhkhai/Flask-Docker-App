@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   python: circleci/python@2.1.1
   docker: circleci/docker@2.6.0
+
 # Jobs - Set of instructions / Functions.
 jobs:
   build: # Job name.
@@ -22,6 +23,7 @@ jobs:
           command: |
             pytest --version
           name: Test
+
   publish:
     executor: docker/docker
     steps:
@@ -34,6 +36,18 @@ jobs:
       - docker/push:
           image: nhkhai/container-assignment
           tag: latest
+
+  deploy:
+    docker:
+      - image: cimg/2024.03.1
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Render Deploy Hook
+          command: |
+            $RENDER_DEPLOY_HOOK_URL
+
 # Workflow - Defines what sequence will the jobs run.
 workflows:
   simple_workflow: # Workflow name.
@@ -42,3 +56,6 @@ workflows:
       - publish:
           requires:
             - build
+      - deploy:
+          requires:
+            - publish
