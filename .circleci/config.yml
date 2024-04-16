@@ -39,7 +39,7 @@ jobs:
 
   deploy:
     docker:
-      - image: cimg/2024.03
+      - image: cimg/deploy:2024.03
     steps:
       - setup_remote_docker
       - checkout
