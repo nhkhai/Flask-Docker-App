@@ -29,9 +29,9 @@ jobs:
       - checkout
       - docker/check
       - docker/build:
-          image: nhkhai/container-assignment
+          image: nhkhai/container-assignment:latest
       - docker/push:
-          image: nhkhai/container-assignment
+          image: nhkhai/container-assignment:latest
 # Workflow - Defines what sequence will the jobs run.
 workflows:
   simple_workflow: # Workflow name.
