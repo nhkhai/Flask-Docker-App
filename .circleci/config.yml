@@ -1,0 +1,44 @@
+version: 2.1
+# Orbs - Reusable packages for use.
+orbs:
+  python: circleci/python@2.1.1
+  docker: circleci/docker@2.6.0
+# Jobs - Set of instructions / Functions.
+jobs:
+  build: # Job name.
+    docker: # Environment.
+      - image: cimg/node:16.10
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run: |
+          echo "Installing dependencies..."
+          npm install
+  build2: # Job name.
+    executor: python/default
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+      - python/install-packages:
+          pip-dependency-file: requirements.txt
+          pkg-manager: pip
+  publish:
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - docker/check
+      - docker/build:
+          image: nhkhai/container-assignment
+      - docker/push:
+          image: nhkhai/container-assignment
+# Workflow - Defines what sequence will the jobs run.
+workflows:
+  simple_workflow: # Workflow name.
+    jobs:
+      - build
+      - publish:
+          requires:
+            - build
